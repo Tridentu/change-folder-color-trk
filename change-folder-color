@@ -1,0 +1,71 @@
+#!/usr/bin/env python3
+
+from random import randint
+import argparse
+import pathlib
+import sys
+import os
+from xdg.DesktopEntry import DesktopEntry
+
+
+class FolderDNE(Exception):
+    pass
+
+
+class FolderChanger:
+    def __init__(self):
+        self.colorChoices = ["default", "black", "brown", "cyan", "grey", "green", "magenta", "orange", "red", "yellow", "violet"]
+        self.symbolChoices = ["default", "activities", "apple", "copy-cloud", "desktop", "development", "documents", "download", "downloads", "drive", "favorites", "games", "git", "gnome", "image-people", "important", "java", "linux", "locked", "mail", "mail-cloud", "mega", "meocloud", "music", "network", "owncloud", "photo", "pictures", "print", "private", "public", "remote", "steam", "tar", "templates", "unlocked", "vbox", "video", "videos", "visiting", "wifi", "wine", "yandex-disk"]
+        self.parser = argparse.ArgumentParser(description="Change the color of a specific folder on your system.", prog="change-folder-color")
+        self.parser.add_argument("--color", type=str, choices=self.colorChoices, help="Desired color for the given folder(s).")
+        self.parser.add_argument("--iconPath", type=pathlib.Path, help="Desired icon (path) for the given folder(s).")
+        self.parser.add_argument("--icon", type=str, help="Desired icon for the given folder(s).")
+        self.parser.add_argument("--openChooser", type=str, help="Whether or not to open the icon chooser.")
+        self.parser.add_argument("--random", type=bool, help="Chooses a random color.")
+        self.parser.add_argument("--symbol", type=str, choices=self.symbolChoices, help="Desired symbol (on the folder icon) for the given folder(s).")
+        self.parser.add_argument("folders",  metavar="N", type=pathlib.Path, nargs="+", help="folder(s) to change the color of.")
+
+    def parse(self):
+        self.args = self.parser.parse_args(sys.argv)
+        if self.args is not None:
+            self.args = vars(self.args)
+
+    def write(self):
+        for folder in self.args["folders"][1:]:
+            try:
+                if not os.path.exists(folder):
+                    raise FolderDNE
+
+                with open(os.path.join(folder, ".directory"), "w+") as file_dir:
+                    file_dir.write("[Desktop Entry]\n")
+                    if self.args["iconPath"] is not None:
+                        file_dir.write("Icon=" + self.args["iconPath"])
+                    elif self.args["icon"]  is not None:
+                        file_dir.write("Icon=" + self.args["icon"])
+                    elif self.args["color"]  is not None:
+                        colorIcon = "Icon=" + "folder-" + self.args["color"]
+                        if self.args["symbol"]  is not None:
+                            colorIcon += "-" + self.args["symbol"]
+                        file_dir.write(colorIcon)
+                    elif self.args["random"]  is not None:
+                       colorIcon = "Icon=" + "folder-" + self.colorChoices[randint(1, len(self.colorChoices))]
+                       if self.args["symbol"] is not None:
+                         colorIcon += "-" + self.args["symbol"]
+                       file_dir.write(colorIcon)
+                    elif self.args["symbol"] is not None:
+                         colorIcon = "Icon=" + "folder-" + self.args["symbol"]
+                         file_dir.write(colorIcon)
+                    file_dir.close()
+            except FolderDNE:
+                print("The folder %s does not exist." % (folder))
+
+
+
+    def __call__(self):
+        self.write()
+
+
+if __name__ == "__main__":
+    fc = FolderChanger()
+    fc.parse()
+    fc()

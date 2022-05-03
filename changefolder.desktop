@@ -1,0 +1,101 @@
+[Desktop Entry]
+Type=Service
+MimeType=inode/directory;
+Name=Change Folder Color
+Version=0.5
+Icon=colors-chromablue
+ServiceTypes=KonqPopupMenu/Plugin
+Encoding=UTF-8
+
+X-KDE-Submenu=Color
+X-KDE-Priority=TopLevel
+Actions=default;cyan;blue;green;yellow;orange;red;magenta;violet;brown;grey;black;_SEPARATOR_;user-home;documents;download;pictures;music;videos;development;favorites;
+
+
+[Desktop Action default]
+Name=Default
+Icon=folder-folder
+Exec=change-folder-color %U --color default --symbol default
+
+
+[Desktop Action cyan]
+Name=Cyan
+Icon=folder-cyan
+Exec=change-folder-color %U --color cyan
+
+[Desktop Action yellow]
+Name=Yellow
+Icon=folder-yellow
+Exec=change-folder-color %U --color yellow
+
+[Desktop Action orange]
+Name=Orange
+Icon=folder-orange
+Exec=change-folder-color %U --color orange
+
+[Desktop Action red]
+Name=Red
+Icon=folder-red
+Exec=change-folder-color %U --color red
+
+[Desktop Action magenta]
+Name=Magenta
+Icon=folder-magenta
+Exec=change-folder-color %U --color magenta
+
+[Desktop Action violet]
+Name=Violet
+Icon=folder-violet
+Exec=change-folder-color %U --color violet
+
+[Desktop Action grey]
+Name=Grey
+Icon=folder-grey
+Exec=change-folder-color %U --color grey
+
+[Desktop Action black]
+Name=Black
+Icon=folder-black
+Exec=change-folder-color %U --color black
+
+########################################
+
+[Desktop Action user-home]
+Name=Home
+Icon=folder-user-home
+Exec=change-folder-color %U --symbol desktop
+
+[Desktop Action documents]
+Name=Documents
+Icon=folder-documents
+Exec=change-folder-color %U --symbol documents
+
+[Desktop Action download]
+Name=Downloads
+Icon=folder-download
+Exec=change-folder-color %U --symbol download
+
+[Desktop Action pictures]
+Name=Images
+Icon=folder-images
+Exec=change-folder-color %U --symbol pictures
+
+[Desktop Action music]
+Name=Music
+Icon=folder-music
+Exec=change-folder-color %U --symbol music
+
+[Desktop Action music]
+Name=Videos
+Icon=folder-videos
+Exec=change-folder-color %U --symbol videos
+
+[Desktop Action development]
+Name=Development
+Icon=folder-development
+Exec=change-folder-color %U --symbol development
+
+[Desktop Action favorites]
+Name=Favorites
+Icon=folder-favorites
+Exec=change-folder-color %U --symbol favorites
